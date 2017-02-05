@@ -1,5 +1,5 @@
 import numpy as np
-import scipy
+import scipy.misc
 import csv
 import os
 
