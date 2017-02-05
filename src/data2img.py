@@ -1,5 +1,5 @@
 import numpy as np
-import scipy.misc as smp
+import scipy
 import csv
 import os
 
@@ -10,7 +10,7 @@ data_output_dir = '../data/img'
 
 # based on https://stackoverflow.com/questions/312443/how-do-you-split-a-list-into-evenly-sized-chunks
 # based on https://stackoverflow.com/questions/434583/what-is-the-fastest-way-to-draw-an-image-from-discrete-pixel-values-in-python
-def csv2img(file_name):
+def csv2array(file_name):
     img_list = []
     csv_file = csv.DictReader(open(file_name))
 
@@ -26,27 +26,27 @@ def csv2img(file_name):
 
 
 def display_img(data):
-    img = smp.toimage(data[1])
-    img.show()
+    i = scipy.misc.toimage(data[1])
+    i.show()
 
 
 def save_img(data, file_name):
-    img = smp.toimage(data[1])
-    img.save(file_name)
+    i = scipy.misc.toimage(data[1])
+    i.save(file_name)
 
 
 if __name__ == "__main__":
     # convert image to data
-    # returns data in format (expression, numpy array)
-    img_data = csv2img(csv_file_name)
+    # returns data in format [(expression, numpy array)]
+    img_data = csv2array(csv_file_name)
 
-    # save first 10 images
     if not os.path.exists(data_output_dir):
         os.makedirs(data_output_dir)
-    for i in range(0, 9):
-        img = img_data[i]
+    # save first 10 images for demo purpose
+    for k in range(0, 9):
+        img = img_data[k]
         # save image with filename "index_emotion.png"
-        save_img(img, data_output_dir + "/{}_{}.png".format(i, img[0]))
+        save_img(img, data_output_dir + "/{}_{}.png".format(k, img[0]))
 
-    # display an example
+    # display an example for demo purpose
     display_img(img_data[2])
