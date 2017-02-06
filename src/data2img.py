@@ -17,7 +17,7 @@ def csv2array(file_name):
     for csv_row in csv_file:
         data = np.zeros((IMG_SIZE, IMG_SIZE), dtype=np.uint8)
         pixel_data = csv_row['pixels'].split()
-        for i in range(0, IMG_SIZE - 1):
+        for i in range(0, IMG_SIZE):
             pixel_index = i * IMG_SIZE
             data[i] = pixel_data[pixel_index:pixel_index + IMG_SIZE]
         img_list.append((csv_row['emotion'], data))
