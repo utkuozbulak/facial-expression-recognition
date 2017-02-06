@@ -38,6 +38,9 @@ def display_img(data):
 
 
 def save_img(data, file_name):
+    if not os.path.exists(os.path.dirname(file_name)):
+        os.makedirs(os.path.dirname(file_name))
+
     i = toimage(data[1])
     i.save(file_name)
 
@@ -47,13 +50,10 @@ if __name__ == "__main__":
     # returns data in format [(expression, numpy array)]
     img_data = csv2array(CSV_FILE_NAME)
 
-    if not os.path.exists(DATA_OUTPUT_DIR):
-        os.makedirs(DATA_OUTPUT_DIR)
-    # save first 10 images for demo purpose
-    for k in range(0, 9):
-        img = img_data[k]
-        # save image with filename "index_emotion.png"
-        save_img(img, DATA_OUTPUT_DIR + "/{}_{}.png".format(k, img[0]))
+    # save images to disk
+    for i, img in enumerate(img_data):
+        # save image with filename "/{expression}/{row_num}.png"
+        save_img(img, DATA_OUTPUT_DIR + "/{}/{}.png".format(img[0], i))
 
     # display an example for demo purpose
     display_img(img_data[2])
