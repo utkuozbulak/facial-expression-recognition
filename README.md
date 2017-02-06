@@ -22,3 +22,28 @@ The training set consists of 28,709 examples. The first test set consists of 3,5
 This dataset was prepared by Pierre-Luc Carrier and Aaron Courville, as part of an ongoing research project in the past. 
 
 Past Kaggle competition for this partical challenge: https://www.kaggle.com/c/challenges-in-representation-learning-facial-expression-recognition-challenge
+
+##Sample images
+
+
+![Angry](https://raw.githubusercontent.com/utkuozbulak/facial-expression-recognition/master/data/samples/0_anrgy/10.png "Angry")
+Angry
+
+![Disgust](https://raw.githubusercontent.com/utkuozbulak/facial-expression-recognition/master/data/samples/1_disgust/299.png "Disgust")
+Disgust
+
+![Fear](https://raw.githubusercontent.com/utkuozbulak/facial-expression-recognition/master/data/samples/2_fear/5.png "Fear")
+Fear
+
+![Happy](https://raw.githubusercontent.com/utkuozbulak/facial-expression-recognition/master/data/samples/3_happy/14.png "Happy")
+Happy
+
+![Sad](https://raw.githubusercontent.com/utkuozbulak/facial-expression-recognition/master/data/samples/4_sad/6.png "Sad")
+Sad
+
+![Surprise](https://raw.githubusercontent.com/utkuozbulak/facial-expression-recognition/master/data/samples/5_suprise/15.png "Surprise")
+Surprise
+
+![Neutral](https://raw.githubusercontent.com/utkuozbulak/facial-expression-recognition/master/data/samples/6_neutral/11.png "Neutral")
+Neutral
+
