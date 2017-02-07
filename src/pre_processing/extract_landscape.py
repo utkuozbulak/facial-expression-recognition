@@ -1,8 +1,8 @@
 import dlib
 import numpy as np
 import os
-import csv
 import logging
+from src.extract_data.get_data_from_csv import GetDataFromCSV
 
 DIR_PATH = os.path.dirname(os.path.realpath(__file__))
 PREDICTOR_PATH = DIR_PATH + "/shape_predictor_68_face_landmarks.dat"
@@ -130,40 +130,15 @@ def get_facial_vectors(specific_part=None, file_path=DATA_CSV_FILE, only_train_d
 
 def _extract_photos_from_file(file_path=DATA_CSV_FILE, extract_first_only=False, only_train_data=False,
                               only_test_data=False):
-    def _create_image_matrix(only_train_data, only_test_data):
-        if only_train_data:
-            images_matrix = np.zeros([TRAIN_END_POINT, 48, 48], dtype="uint8")
-        elif only_test_data:
-            images_matrix = np.zeros([PUBLIC_TEST_END_POINT - TRAIN_END_POINT, 48, 48], dtype="uint8")
-        else:
-            images_matrix = np.zeros([35887, 48, 48], dtype="uint8")
-        return images_matrix
-
-    logger.debug("Extracting photos from csv")
-    images_matrix = _create_image_matrix(only_train_data, only_test_data)
-
-    with open(file_path, newline='', encoding='utf-8') as f:
-        reader = csv.reader(f)
-        _ = next(reader)
-        for k, pixels in enumerate(reader):
-            k_mod = k
-            image_csv_format = np.zeros([1, IMAGE_SIZE])
-            pixels_formated = [int(a) for a in pixels[1].split(" ")]
-            image_csv_format[0, :] = pixels_formated
-            image_csv_format = np.reshape(image_csv_format, [48, 48])
-            if k % 10000 == 0:
-                logger.debug("photos extracted from csv {}".format(k))
-            if only_train_data and k >= TRAIN_END_POINT - 1:
-                break
-            elif only_test_data:
-                if k <= PUBLIC_TEST_START_POINT:
-                    continue
-                k_mod = k - PUBLIC_TEST_START_POINT
-            images_matrix[k_mod, :, :] = image_csv_format
-            if extract_first_only:
-                break
-
-    logger.debug("Finished extracting photos from csv")
+    data_getter = GetDataFromCSV()
+    if only_train_data:
+        images_matrix, _ = data_getter.get_training_data()
+    elif only_test_data:
+        images_matrix, _ = data_getter.get_test_data()
+    elif extract_first_only:
+        images_matrix, _ = data_getter.get_first_record()
+    else:
+        images_matrix, _ = data_getter.get_all_data()
     return images_matrix
 
 

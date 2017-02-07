@@ -13,14 +13,6 @@ ALL_DATA_CACHED_PATH = DIR_PATH + "/../../src/pre_processing/saved_landscape_pro
 class TestExtractLandScape(unittest.TestCase):
     logging.basicConfig(level=logging.INFO)
 
-    def test_csv_extract_only_train_images(self):
-        extracted_images = _extract_photos_from_file(only_train_data=True)
-        self.assertEqual(extracted_images.shape, (28708, 48, 48))
-
-    def test_csv_extract_only_test_images(self):
-        extracted_images = _extract_photos_from_file(only_test_data=True)
-        self.assertEqual(extracted_images.shape, (35887 - 28708, 48, 48))
-
     def test_get_training_data_vectors(self):
         training_vectors = get_facial_vectors(only_train_data=True)
         self.assertEqual(training_vectors.shape, (28708, 68, 2))
