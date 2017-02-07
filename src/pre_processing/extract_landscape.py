@@ -6,7 +6,7 @@ import logging
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 PREDICTOR_PATH = dir_path + "/shape_predictor_68_face_landmarks.dat"
-DATA_CSV_FILE = dir_path + '/../data/fer2013.csv'
+DATA_CSV_FILE = dir_path + '/../../data/fer2013.csv'
 IMAGE_SIZE = 48 * 48
 
 TRAIN_END_POINT = 28708
@@ -33,11 +33,11 @@ def show_example():
     """
     Prints vectors found for first photo in file and shows picture with vectors painted on photo
     """
-    photos_matrix = _extract_photos_from_file(True)
+    photos_matrix = _extract_photos_from_file(PREDICTOR_PATH, True)
     detector = dlib.get_frontal_face_detector()
     predictor = dlib.shape_predictor(PREDICTOR_PATH)
     img = photos_matrix[0, :, :]
-    win = _initilise_gui_window(img)
+    win = _initialise_gui_window(img)
     dets = detector(img, 1)
     vec = _get_vectors_of_image_from_image(dets, predictor, img, win)
     logger.info(vec)
@@ -45,7 +45,7 @@ def show_example():
     dlib.hit_enter_to_continue()
 
 
-def get_facial_vectors(specific_part=None, file_path=PREDICTOR_PATH, only_train_data=False, only_test_data=False):
+def get_facial_vectors(specific_part=None, file_path=DATA_CSV_FILE, only_train_data=False, only_test_data=False):
     """
     TODO: Make it work with extracting only test and train data
     TODO: get precompiled data if availible
@@ -62,7 +62,7 @@ def get_facial_vectors(specific_part=None, file_path=PREDICTOR_PATH, only_train_
     :return numpy array [n, 62, 2], where n is number of photos analysed
     """
     logger.debug("Getting facial vectors")
-    photos_matrix = _extract_photos_from_file(False, only_train_data, only_test_data)
+    photos_matrix = _extract_photos_from_file(file_path, False, only_train_data, only_test_data)
 
     facial_featutes_matrix = np.zeros([35886, 68, 2])
     detector = dlib.get_frontal_face_detector()
@@ -87,7 +87,7 @@ def get_facial_vectors(specific_part=None, file_path=PREDICTOR_PATH, only_train_
     return facial_featutes_matrix
 
 
-def _extract_photos_from_file(extract_first_only=False, only_train_data=False, only_test_data=False):
+def _extract_photos_from_file(file_path, extract_first_only=False, only_train_data=False, only_test_data=False):
     logger.debug("Extracting photos from csv")
     if only_train_data:
         images_matrix = np.zeros([TRAIN_END_POINT, 48, 48], dtype="uint8")
@@ -96,7 +96,8 @@ def _extract_photos_from_file(extract_first_only=False, only_train_data=False, o
     else:
         images_matrix = np.zeros([35886, 48, 48], dtype="uint8")
 
-    with open(DATA_CSV_FILE, newline='') as f:
+    print(file_path)
+    with open(file_path, newline='', encoding='utf-8') as f:
         reader = csv.reader(f)
         _ = next(reader)
         for k, pixels in enumerate(reader):
@@ -110,7 +111,7 @@ def _extract_photos_from_file(extract_first_only=False, only_train_data=False, o
             if only_train_data and k > TRAIN_END_POINT:
                 break
             elif only_test_data & k < PUBLIC_TEST_START_POINT:
-                next
+                continue
                 k_mod = k - PUBLIC_TEST_START_POINT
             images_matrix[k_mod, :, :] = image_csv_format
             if extract_first_only:
@@ -120,7 +121,7 @@ def _extract_photos_from_file(extract_first_only=False, only_train_data=False, o
     return images_matrix
 
 
-def _initilise_gui_window(img):
+def _initialise_gui_window(img):
     win = dlib.image_window()
     win.clear_overlay()
     win.set_image(img)
