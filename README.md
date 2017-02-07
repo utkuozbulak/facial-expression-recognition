@@ -34,4 +34,4 @@ Past Kaggle competition for this partical challenge: https://www.kaggle.com/c/ch
         - download from http://dlib.net/compile.html
         - go to root dir of dlib and type python setup.py install
 
-    pip install -r requirments.txt
+    pip install -r requirements.txt
