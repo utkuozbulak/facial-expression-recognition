@@ -33,7 +33,7 @@ def show_example():
     """
     Prints vectors found for first photo in file and shows picture with vectors painted on photo
     """
-    photos_matrix = _extract_photos_from_file(PREDICTOR_PATH, True)
+    photos_matrix = _extract_photos_from_file(DATA_CSV_FILE, True)
     detector = dlib.get_frontal_face_detector()
     predictor = dlib.shape_predictor(PREDICTOR_PATH)
     img = photos_matrix[0, :, :]
