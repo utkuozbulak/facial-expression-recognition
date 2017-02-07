@@ -1,4 +1,7 @@
 facial landscape paper - http://www.csc.kth.se/~vahidk/papers/KazemiCVPR14.pdf
 facial expression paper - http://research.microsoft.com/en-us/um/people/zhang/Papers/IJPRAI.pdf
+facial points extracted = http://openface-api.readthedocs.io/en/latest/_images/dlib-landmark-mean.png
 
+Examples using Kazemi extraction methods
+facial feature implimentation example - https://matthewearl.github.io/2015/07/28/switching-eds-with-python/
 code to get points on face using OpenFace - http://stackoverflow.com/questions/39793680/how-to-get-points-coordinate-position-in-the-face-landmark-detection-program-of
