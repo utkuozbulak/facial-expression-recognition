@@ -23,6 +23,19 @@ This dataset was prepared by Pierre-Luc Carrier and Aaron Courville, as part of 
 
 Past Kaggle competition for this partical challenge: https://www.kaggle.com/c/challenges-in-representation-learning-facial-expression-recognition-challenge
 
+##To install
+--On Linux
+    Requires Boost lib
+
+    Require X11 for gui support
+         -sudo apt-get install libx11-dev
+
+    dlib needs installing separably v 19.2
+        - download from http://dlib.net/compile.html
+        - go to root dir of dlib and type python setup.py install
+
+    pip install -r requirements.txt
+    
 ##Sample images
 
 
