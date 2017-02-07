@@ -23,7 +23,6 @@ class GetDataFromCSV:
             _ = next(reader)
             for k, data in enumerate(reader):
                 if k < cls.TRAIN_END_POINT:
-                    print(k)
                     pixels_formated = [int(a) for a in data[1].split(" ")]
                     target = int(data[0])
                     pixels_in_picture_format = np.reshape(pixels_formated, [48, 48])
