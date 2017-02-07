@@ -70,7 +70,7 @@ def get_facial_vectors(specific_part=None, file_path=DATA_CSV_FILE, only_train_d
     faces_found = 0
     faces_not_found = 0
     logger.debug("Starting facial detection and feature extraction")
-    for i in range(35886):
+    for i in range(35887):
         img = photos_matrix[i, :, :]
         dets = detector(img, 2)
         if len(dets) != 0:
@@ -81,6 +81,7 @@ def get_facial_vectors(specific_part=None, file_path=DATA_CSV_FILE, only_train_d
             faces_not_found += 1
         if i % 10000 == 0:
             logger.debug("photos gone through {}".format(i))
+        print("faces found {} , not found {}".format(faces_found, faces_not_found))
 
     print("faces found: {}   faces not found : {}".format(faces_found, faces_not_found))
 
@@ -94,7 +95,7 @@ def _extract_photos_from_file(file_path, extract_first_only=False, only_train_da
     elif only_test_data:
         images_matrix = np.zeros([PUBLIC_TEST_END_POINT - 28708, 48, 48], dtype="uint8")
     else:
-        images_matrix = np.zeros([35886, 48, 48], dtype="uint8")
+        images_matrix = np.zeros([35887, 48, 48], dtype="uint8")
 
     print(file_path)
     with open(file_path, newline='', encoding='utf-8') as f:
@@ -110,7 +111,7 @@ def _extract_photos_from_file(file_path, extract_first_only=False, only_train_da
                 logger.debug("photos extracted from csv {}".format(k))
             if only_train_data and k > TRAIN_END_POINT:
                 break
-            elif only_test_data & k < PUBLIC_TEST_START_POINT:
+            elif only_test_data and k < PUBLIC_TEST_START_POINT:
                 continue
                 k_mod = k - PUBLIC_TEST_START_POINT
             images_matrix[k_mod, :, :] = image_csv_format

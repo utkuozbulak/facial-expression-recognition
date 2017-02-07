@@ -1,4 +1,0 @@
-keras
-numpy
-pandas
-tensorflow
