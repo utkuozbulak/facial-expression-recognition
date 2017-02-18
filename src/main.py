@@ -1,13 +1,11 @@
 import pandas as pd
-from scipy.misc import toimage, imresize
 
 from format_data import get_data_in_vectoral_form, csv2array, get_data_in_matrix_format
-from data2img import export_image, show_zoomed_image, save_img,save_single_img
-from svd import save_sample_decomposition, decompose, reshape_matrix, decomposed_matrix_multiplication,generate_decomposed_matrices, generate_decomposed_matrices_from_list
+from data2img import export_image
+from svd import save_sample_decomposition, decompose, generate_decomposed_matrices, generate_decomposed_matrices_from_list
+
 
 raw_data_csv_file_name = '../data/fer2013.csv'
-
-DATA_OUTPUT_DIR = '../data/img'
 
 if __name__ == "__main__":
     raw_data = pd.read_csv(raw_data_csv_file_name)
