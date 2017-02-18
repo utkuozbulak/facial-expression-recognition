@@ -14,7 +14,7 @@ def pandas_vector_to_list(pandas_df):
     return py_list
 
 
-def get_data_in_vectoral_form(emotion, pixels):
+def get_data_in_vectoral_format(emotion, pixels):
     emotion_as_list = pandas_vector_to_list(emotion)
     pixels_as_list = pandas_vector_to_list(pixels)
     x_vectoral_data = []

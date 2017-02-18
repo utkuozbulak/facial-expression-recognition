@@ -1,6 +1,6 @@
 import pandas as pd
 
-from format_data import get_data_in_vectoral_form, csv2array, get_data_in_matrix_format
+from format_data import get_data_in_vectoral_format, csv2array, get_data_in_matrix_format
 from data2img import export_image
 from svd import save_sample_decomposition, decompose, generate_decomposed_matrices, generate_decomposed_matrices_from_list
 
@@ -15,7 +15,7 @@ if __name__ == "__main__":
     # Data formatting, vectoral and matrix form
     # Vectoral
     ( x_train_vectoral, x_public_test_vectoral, x_private_test_vectoral,
-    y_train, y_public_test, y_private_test) = get_data_in_vectoral_form(emotion, pixels)
+    y_train, y_public_test, y_private_test) = get_data_in_vectoral_format(emotion, pixels)
     # Matrix
     (x_train_matrix, x_public_test_matrix, x_private_test_matrix,
      y_train, y_public_test, y_private_test) = get_data_in_matrix_format(emotion, pixels)
