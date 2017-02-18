@@ -47,10 +47,10 @@ def generate_decomposed_matrices_from_list(image_list):  # Generates a list of d
 def save_sample_decomposition(decomposed_list, first_n_decompositions):  # Saves a sample decomposition
     summed_image = np.zeros((48,48))
     for index,item in enumerate(decomposed_list[:first_n_decompositions:]):  # First n decompositions
-        image = get_zoomed_image(item, 500)
+        image = get_zoomed_image(item, 500)  # 500 percentage zoom
         save_single_img(image, str(index))
         summed_image = summed_image + item
-    summed_image = get_zoomed_image(summed_image, 500)
+    summed_image = get_zoomed_image(summed_image, 500)  # 500 percentage zoom
     save_single_img(summed_image, 'summed_image')
 
 

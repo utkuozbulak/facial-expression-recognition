@@ -37,3 +37,4 @@ if __name__ == "__main__":
     # You can play with the number '10' and observe different results
     # As the sum of decompositions increase the summed image gets better and better
     save_sample_decomposition(decomposed_list, 10)  # Saves some sample results of this decomposition
+    # 10 is the amount of decompositions, can be anything up to 48
