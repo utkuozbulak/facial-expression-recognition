@@ -1,5 +1,5 @@
 """
-WILL COMMIT FULL CODE LATE 
+WILL COMMIT FULL CODE LATE
 from src.pre_processing.extract_landscape import get_facial_vectors
 from src.extract_data.get_data_from_csv import GetDataFromCSV
 

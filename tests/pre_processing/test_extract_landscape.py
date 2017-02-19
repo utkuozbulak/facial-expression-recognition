@@ -4,12 +4,6 @@ import os.path
 
 from src.pre_processing.extract_landscape import FeatureExtract
 
-DIR_PATH = os.path.dirname(os.path.realpath(__file__))
-TEST_DATA_CACHED_PATH = DIR_PATH + "/../../src/pre_processing/saved_landscape_processing/landscape_test_data.npy"
-TRAIN_DATA_CACHED_PATH = DIR_PATH + "/../../src/pre_processing/saved_landscape_processing/landscape_train_data.npy"
-ALL_DATA_CACHED_PATH = DIR_PATH + "/../../src/pre_processing/saved_landscape_processing/landscape_all_data.npy"
-
-
 class TestExtractLandScape(unittest.TestCase):
     logging.basicConfig(level=logging.INFO)
 
