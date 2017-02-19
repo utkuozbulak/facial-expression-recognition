@@ -71,8 +71,8 @@ class FeatureExtract(object):
             except FileNotFoundError:
                 logger.debug("No file found, Processing data")
 
-        facial_features_test_public = self._get_facial_vectors_train(self.x_public_test_matrix)
-        facial_features_test_private = self._get_facial_vectors_train(self.x_private_test_matrix)
+        facial_features_test_public = self._get_facial_vectors(self.x_public_test_matrix)
+        facial_features_test_private = self._get_facial_vectors(self.x_private_test_matrix)
         self._save_processed_image_matrix(self.TEST_DATA_PUBLIC_CATHED_PATH, facial_features_test_public)
         self._save_processed_image_matrix(self.TEST_DATA_PRIVATE_CACHED_PATH, facial_features_test_private)
         return facial_features_test_public, facial_features_test_private
@@ -94,11 +94,11 @@ class FeatureExtract(object):
                 logger.debug("No file found, Processing data")
 
         facial_features_train = self.x_train_matrix
-        facial_features = self._get_facial_vectors_train(facial_features_train)
+        facial_features = self._get_facial_vectors(facial_features_train)
         self._save_processed_image_matrix(self.TRAIN_DATA_CACHED_PATH, facial_features)
         return facial_features
 
-    def _get_facial_vectors_train(self, photos_matrix):
+    def _get_facial_vectors(self, photos_matrix):
 
         logger.debug("Getting facial vectors")
         facial_featutes_matrix = np.zeros([len(photos_matrix), 68, 2])
