@@ -1,6 +1,8 @@
 import os
 from scipy.misc import toimage, imresize
 
+from format_data import TRAIN_END
+
 
 DATA_OUTPUT_DIR = '../data/img'
 DECOMPOSITION_OUTPUT_DIR = '../data/img/decomposition/'
@@ -26,6 +28,14 @@ def export_image(img_data):
         save_img(img, DATA_OUTPUT_DIR + "/{}/{}.png".format(img[0], i))
     # display an example for demo purpose
     display_img(img_data[2])
+
+
+def export_training_and_test_images(img_data):
+    for i, img in enumerate(img_data):
+        if i <= TRAIN_END:
+            save_img(img, DATA_TRAINING_OUTPUT_DIR + "/{}/{}.png".format(img[0], i))
+        else:
+            save_img(img, DATA_TEST_OUTPUT_DIR + "/{}/{}.png".format(img[0], i))
 
 
 def show_zoomed_image(image_as_list ,zoom_ratio):
