@@ -4,6 +4,8 @@ from scipy.misc import toimage, imresize
 
 DATA_OUTPUT_DIR = '../data/img'
 DECOMPOSITION_OUTPUT_DIR = '../data/img/decomposition/'
+DATA_TRAINING_OUTPUT_DIR = '../data/img/train'
+DATA_TEST_OUTPUT_DIR = '../data/img/test'
 
 
 def display_img(data):
