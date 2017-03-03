@@ -20,7 +20,7 @@ def images_to_array(img_dir):
     """
     Takes a directory with images and transform them into pixel arrays
     :param: img_dir is directory of images to transform into pixel values
-    :return: Array of tuples with emotion and numpy.ndarray flattened to one dimensions
+    :return: Array of tuples with emotion and pixel values
     """
     emotion_and_pixels = []
 
