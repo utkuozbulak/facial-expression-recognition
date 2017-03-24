@@ -28,7 +28,8 @@ class GetDataFromCSV:
                     pixels_in_picture_format = np.reshape(pixels_formated, [48, 48])
                     train_data_y[k, :] = target
                     train_data_x[k, :, :] = pixels_in_picture_format
-                break
+                else:
+                    break
         return train_data_x, train_data_y
 
     @classmethod
@@ -46,6 +47,8 @@ class GetDataFromCSV:
                     pixels_in_picture_format = np.reshape(pixels_formated, [48, 48])
                     test_data_y[k_mod, :] = target
                     test_data_x[k_mod, :, :] = pixels_in_picture_format
+                else:
+                    break
         return test_data_x, test_data_y
 
     @classmethod
