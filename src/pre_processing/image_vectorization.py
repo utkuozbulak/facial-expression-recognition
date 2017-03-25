@@ -1,10 +1,10 @@
-
 from src.pre_processing.extract_landscape import RIGHT_BROW
 from src.pre_processing.extract_landscape import LEFT_BROW
 from src.pre_processing.extract_landscape import NOSE
 from src.pre_processing.extract_landscape import RIGHT_EYE
 from src.pre_processing.extract_landscape import LEFT_EYE
 from src.pre_processing.extract_landscape import MOUTH
+
 
 FACIAL_FEATURE_SETS = {
     "right_brow": RIGHT_BROW,
@@ -14,35 +14,6 @@ FACIAL_FEATURE_SETS = {
     "left_eye": LEFT_EYE,
     "mouth": MOUTH,
 }
-
-# vertical is up/down, horizontal is left/right
-# FEATURE_AXIS_POINTS = {
-#     "mouth": {
-#         "vertical": (51, 57),
-#         "horizontal": (48, 54),
-#     },
-#     "nose": {
-#         "vertical": (27, 33),
-#         "horizontal": (31, 35),
-#     },
-#     "left_eye": {
-#         "vertical": (),
-#         "horizontal": (36, 39),
-#     },
-#     "right_eye": {
-#         "vertical": (),
-#         "horizontal": (42, 45),
-#     },
-#     "left_brow": {
-#         "vertical": (),
-#         "horizontal": (42, 45),
-#     },
-#     "right_brow": {
-#         "vertical": (),
-#         "horizontal": (42, 45),
-#     },
-#
-# }
 
 
 def _get_largest_feature(feature_points, facial_vector):
