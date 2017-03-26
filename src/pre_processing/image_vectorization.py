@@ -97,6 +97,19 @@ def get_largest_features(facial_vectors):
 def get_resized_feature_vectors(feature_data,
                                 pixels,
                                 maintain_aspect_ratio=False):
+    """
+    Bulk processor for taking in feature data (the mouth, nose, ears thing)
+    and pumping images of each of these parts to the size of the largest
+    x and y axes of each feature... strange to explain.
+    :param feature_data: the features extracted, should be [num_images]x68x2
+    :param pixels: pixels of the image, should be [num_images]x48x48 or similar
+    :param maintain_aspect_ratio: currently unused, but will add black padding
+    at a later date.
+    :return: a list of dicts, where each dict is the pixels of the rescaled
+    feature - the same features for any input image _should_ then be the same
+    size and feedable to a neural net. This is a simple resize. experimentation
+    is due.
+    """
     assert len(feature_data) == len(pixels)
     feature_target_sizes = get_largest_features(feature_data)
     resized_vectors = []
@@ -107,7 +120,6 @@ def get_resized_feature_vectors(feature_data,
                                                          pixels[index],
                                                          maintain_aspect_ratio)
             resized_vectors.append(resized_vector)
-            print(resized_vector)
         else:
             resized_vectors.append(None)
     return resized_vectors
@@ -129,21 +141,28 @@ def _get_resized_feature_vector(feature_data,
     :param pixels: pixels of the image, should be 48x48 or similar.
     :param maintain_aspect_ratio: what it says on the tin. black-padded.
     :return: the resized features in a dict, each resized to the largest
-    possible feature, this size is obtained from `get_largest_features`
+    possible feature, this size is obtained from `get_largest_features`.
+    BEWARE: will insert a None in this list instead of a dict if there is
+    no face data from dlib. handle your Nones yo.
     """
     resized_image_features = {}
+    # clip feature data, this is probably wrong:
+    # TODO: improve this.
+    clipped_feature_data = feature_data.clip(0, 48)
+
     for feature_key in FACIAL_FEATURE_SETS.keys():
         # grab the feature out of the full image. how hard could it be?
-        minx_index, maxx_index, miny_index, maxy_index = _get_min_max_feature_numbers(
+        (minx_index, maxx_index,
+         miny_index, maxy_index) = _get_min_max_feature_numbers(
             FACIAL_FEATURE_SETS[feature_key],
-            feature_data
+            clipped_feature_data
         )
 
         # now grab out the x/y's of the pixels - separated for some clarity.
-        minx = int(feature_data[minx_index, 0])
-        maxx = int(feature_data[maxx_index, 0])
-        miny = int(feature_data[miny_index, 1])
-        maxy = int(feature_data[maxy_index, 1])
+        minx = int(clipped_feature_data[minx_index, 0])
+        maxx = int(clipped_feature_data[maxx_index, 0]) + 1
+        miny = int(clipped_feature_data[miny_index, 1])
+        maxy = int(clipped_feature_data[maxy_index, 1]) + 1
 
         # ok, we have our data for this facial feature,
         # (scale and index of min/max points on each axis),
@@ -154,10 +173,7 @@ def _get_resized_feature_vector(feature_data,
         # kk resize dis up to our feature_target_size.
         target_size = (feature_target_size[feature_key]['x'],
                        feature_target_size[feature_key]['y'])
-        try:
-            resized_feature = imresize(feature_pixels, target_size)
-        except ValueError as e:
-            print("well, damn.")
+        resized_feature = imresize(feature_pixels, target_size)
         resized_image_features[feature_key] = resized_feature
 
     return resized_image_features
