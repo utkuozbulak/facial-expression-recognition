@@ -1,3 +1,4 @@
+import numpy as np
 from scipy.misc import imresize
 
 from src.pre_processing.extract_landscape import RIGHT_BROW
@@ -94,37 +95,6 @@ def get_largest_features(facial_vectors):
     return max_feature_size
 
 
-def get_resized_feature_vectors(feature_data,
-                                pixels,
-                                maintain_aspect_ratio=False):
-    """
-    Bulk processor for taking in feature data (the mouth, nose, ears thing)
-    and pumping images of each of these parts to the size of the largest
-    x and y axes of each feature... strange to explain.
-    :param feature_data: the features extracted, should be [num_images]x68x2
-    :param pixels: pixels of the image, should be [num_images]x48x48 or similar
-    :param maintain_aspect_ratio: currently unused, but will add black padding
-    at a later date.
-    :return: a list of dicts, where each dict is the pixels of the rescaled
-    feature - the same features for any input image _should_ then be the same
-    size and feedable to a neural net. This is a simple resize. experimentation
-    is due.
-    """
-    assert len(feature_data) == len(pixels)
-    feature_target_sizes = get_largest_features(feature_data)
-    resized_vectors = []
-    for index, feature in enumerate(feature_data):
-        if feature.any():
-            resized_vector = _get_resized_feature_vector(feature,
-                                                         feature_target_sizes,
-                                                         pixels[index],
-                                                         maintain_aspect_ratio)
-            resized_vectors.append(resized_vector)
-        else:
-            resized_vectors.append(None)
-    return resized_vectors
-
-
 def _get_resized_feature_vector(feature_data,
                                feature_target_size,
                                pixels,
@@ -177,3 +147,87 @@ def _get_resized_feature_vector(feature_data,
         resized_image_features[feature_key] = resized_feature
 
     return resized_image_features
+
+
+def get_resized_feature_vectors(feature_data,
+                                pixels,
+                                maintain_aspect_ratio=False):
+    """
+    Bulk processor for taking in feature data (the mouth, nose, ears thing)
+    and pumping images of each of these parts to the size of the largest
+    x and y axes of each feature... strange to explain.
+    :param feature_data: the features extracted, should be [num_images]x68x2
+    :param pixels: pixels of the image, should be [num_images]x48x48 or similar
+    :param maintain_aspect_ratio: currently unused, but will add black padding
+    at a later date.
+    :return: a list of dicts, where each dict is the pixels of the rescaled
+    feature - the same features for any input image _should_ then be the same
+    size and feedable to a neural net. This is a simple resize. experimentation
+    is due.
+    """
+    assert len(feature_data) == len(pixels)
+    feature_target_sizes = get_largest_features(feature_data)
+    resized_vectors = []
+    for index, feature in enumerate(feature_data):
+        if feature.any():
+            resized_vector = _get_resized_feature_vector(feature,
+                                                         feature_target_sizes,
+                                                         pixels[index],
+                                                         maintain_aspect_ratio)
+            resized_vectors.append(resized_vector)
+        else:
+            resized_vectors.append(None)
+    return resized_vectors
+
+
+def _concatenate_vector(feature_vector):
+    """
+    Takes in a dict of feature vectors (nominally provided by a single element
+    of `get_resized_feature_vectors`) and puts them in to one concatenated
+    vector
+    :param feature_vectors: dict of feature vectors for one image
+    :return: vector with all the features concatenated in to one vector.
+    """
+    try:
+        return np.concatenate(
+            [feature.flatten() for feature in feature_vector.values()]
+        )
+    except AttributeError:
+        return None
+
+
+def get_concatenated_vectors(normalized_facial_vectors):
+    """
+    The bread and butter of this entire module. This method takes in the list
+    of dictionaries of each face, concatenates each face's features together
+    in to a single vector and puts it all together in to a
+    num_faces * num_pixels_per_face array (with exception of Nones for images
+    which could not be processed for face.)
+
+    :param normalized_facial_vectors: the list (per face) of
+    dictionaries (per facial feature) of normalized features
+    :return: an almost-matrix of all your relevant datas. pixel data where
+    available, None where no face was detected. (BEWARE!)
+    """
+    concatenation_list = []  # numpy sucks, so we do this in python.
+    # do you even concatenate, bro?
+    for face in normalized_facial_vectors:
+        concatenation_list.append(_concatenate_vector(face))
+    concatenated_faces = np.array(concatenation_list)
+    return concatenated_faces
+
+
+# FOR DEMONSTRATION/MEMORY PURPOSES:
+# def get_cached_normalized_training_vectors():
+#
+#     from src.pre_processing.extract_landscape import get_facial_vectors
+#     from src.pre_processing.extract_landscape import _extract_photos_from_file
+#     facial_vectors = get_facial_vectors(only_train_data=True,
+#                                         load_cached=True)
+#     facial_pixels = _extract_photos_from_file(only_train_data=True)
+#     normalized_facial_features = get_resized_feature_vectors(facial_vectors,
+#                                                              facial_pixels)
+#     normalized_concatenated_facial_features_matrix = get_concatenated_vectors(
+#         normalized_facial_features
+#     )
+#     return normalized_concatenated_facial_features_matrix
