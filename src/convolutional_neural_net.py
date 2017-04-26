@@ -16,7 +16,7 @@ raw_data_csv_file_name = '../data/fer2013.csv'
 
 
 if __name__ == "__main__":
-    
+
     raw_data = pd.read_csv(raw_data_csv_file_name)
     emotion = raw_data[['emotion']]
     pixels = raw_data[['pixels']]
@@ -35,7 +35,6 @@ if __name__ == "__main__":
     # [28708,48,48], but Keras needs an indicator on depth so, added 1 as depth
     f_l = np.empty([28708,1,48,48])
 
-
     for index,item in enumerate(f_l):  # Refill the list
         item[0] = x_train_matrix[index]
 
@@ -53,7 +52,6 @@ if __name__ == "__main__":
         model.add(Convolution2D(48, 3, 3, activation='relu', border_mode='same', W_constraint=maxnorm(3)))
         model.add(MaxPooling2D(pool_size=(2, 2)))
         model.add(Dropout(0.2))
-
 
         model.add(Convolution2D(48, 2, 2, activation='relu', border_mode='same', W_constraint=maxnorm(3)))
         model.add(MaxPooling2D(pool_size=(2, 2)))
