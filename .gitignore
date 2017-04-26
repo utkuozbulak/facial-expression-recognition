@@ -93,6 +93,9 @@ celerybeat-schedule
 venv/
 ENV/
 
+#numpy binaries
+*.npy
+
 # Spyder project settings
 .spyderproject
 
