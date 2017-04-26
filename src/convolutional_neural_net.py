@@ -53,6 +53,7 @@ if __name__ == "__main__":
         model.add(MaxPooling2D(pool_size=(2, 2)))
         model.add(Dropout(0.2))
 
+
         model.add(Convolution2D(48, 2, 2, activation='relu', border_mode='same', W_constraint=maxnorm(3)))
         model.add(MaxPooling2D(pool_size=(2, 2)))
         model.add(Dropout(0.2))
