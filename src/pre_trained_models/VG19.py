@@ -8,6 +8,8 @@ from keras.layers import Dropout, Dense
 from format_data import get_data_in_matrix_format
 from keras.layers.advanced_activations import PReLU
 import os
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import log_loss
 
 N_TEST = 28708
 raw_data_csv_file_name = '../../data/fer2013.csv'
@@ -20,6 +22,7 @@ def vg_19_get_features(run_evaluation_model=False):
             model = Sequential()
             act = PReLU(weights=None, alpha_initializer="zero")
             model.add(Dense(256, input_shape=(512,), activation='relu'))
+            model.add(Dropout(0.25))
             model.add(Dense(128, input_shape=(256,), activation='relu'))
             model.add(Dropout(0.5))
             model.add(Dense(128, input_shape=(64,)))
@@ -29,12 +32,19 @@ def vg_19_get_features(run_evaluation_model=False):
                           optimizer=adamax, metrics=['accuracy'])
             model.fit(x_train_feature_map, y_train,
                       validation_data=(x_train_feature_map, y_train),
-                      nb_epoch=70, batch_size=128)
+                      nb_epoch=100, batch_size=128)
 
         score = model.evaluate(x_test_feature_map,
                                y_public_test, batch_size=128)
         print("Result")
         print(score)
+        return model
+
+    def run_random_forest_model():
+        rf = RandomForestClassifier(n_estimators=25)
+        rf.fit(x_train_feature_map, y_train.astype(int))
+        rf_probs = rf.predict(x_test_feature_map)
+
 
     raw_data = pd.read_csv(raw_data_csv_file_name)
     emotion = raw_data[['emotion']]
@@ -45,10 +55,13 @@ def vg_19_get_features(run_evaluation_model=False):
         get_data_in_matrix_format(emotion, pixels)
     # Only used train and public test for now
     x_train_matrix = x_train_matrix.astype('float32')
+    x_train_matrix = x_train_matrix - x_train_matrix.mean(axis=0)
+
     x_public_test_matrix = x_public_test_matrix.astype('float32')
+    x_public_test_matrix = x_public_test_matrix - x_public_test_matrix.mean(axis=0)
+
     # Put values between 1 and 0
-    x_train_matrix = x_train_matrix / 255.0
-    x_public_test_matrix = x_public_test_matrix / 255.0
+
     # 7 Classes
     num_classes = y_train.shape[1]
 
@@ -99,9 +112,11 @@ def vg_19_get_features(run_evaluation_model=False):
         np.save("./pre_saved_features/vg19trainfeatures", x_train_feature_map)
 
     if run_evaluation_model:
-        run_model()
+        model = run_model()
+    else:
+        model = None
 
-    return x_train_feature_map, x_test_feature_map
+    return x_train_feature_map, x_test_feature_map, model
 
 
 if __name__ == "__main__":

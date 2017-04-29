@@ -28,11 +28,11 @@ def run_merge_model():
     # 7 Classes
     num_classes = y_train.shape[1]
 
-    vg_16_train_features, vg_16_test_features = vg_16_get_features()
+    vg_16_train_features, vg_16_test_features, model1 = vg_16_get_features()
     print("loaded vg16")
-    vg_19_train_features, vg_19_test_features = vg_19_get_features()
+    vg_19_train_features, vg_19_test_features, model2 = vg_19_get_features()
     print("loaded vg19")
-    inception_train_features, inception_test_features = inception_get_features()
+    inception_train_features, inception_test_features, model3 = inception_get_features()
     print("loaded inception")
 
     model_vg16 = Sequential()
@@ -63,7 +63,7 @@ def run_merge_model():
     model_merge.fit([vg_16_train_features, vg_19_train_features], y_train,
                     validation_data=(
                     [[vg_16_train_features, vg_19_train_features], y_train]),
-                    epochs=80, batch_size=512)
+                    epochs=200, batch_size=512)
     score = model_merge.evaluate([vg_16_test_features, vg_19_test_features],
                                  y_public_test, batch_size=512)
 

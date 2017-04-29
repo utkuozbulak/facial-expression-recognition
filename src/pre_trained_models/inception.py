@@ -31,8 +31,7 @@ def inception_get_features(run_evaluation_model=False):
                       nb_epoch=70, batch_size=64)
 
         score = model.evaluate(x_test_feature_map, y_public_test, batch_size=64)
-        print("Result")
-        print(score)
+        return model
 
     raw_data = pd.read_csv(raw_data_csv_file_name)
     emotion = raw_data[['emotion']]
@@ -103,9 +102,10 @@ def inception_get_features(run_evaluation_model=False):
                 x_train_feature_map)
 
     if run_evaluation_model:
-        run_model()
-
-    return x_train_feature_map, x_test_feature_map
+        model = run_model()
+    else:
+        model = None
+    return x_train_feature_map, x_test_feature_map, model
 
 
 if __name__ == "__main__":
