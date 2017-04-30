@@ -5,6 +5,9 @@ from scipy.cluster.vq import *
 from sklearn import svm
 from sklearn import preprocessing
 
+TRAINING_DIR = '../data/img/train'
+TEST_DIR = '../data/img/test'
+
 
 def get_sub_dirs(root_dir):
     sub_dirs = []
@@ -118,10 +121,10 @@ def range_scaler(bag_of_words):
 if __name__ == "__main__":
     number_of_imgs_from_each_class = 100
 
-    tr_sub_dirs = get_sub_dirs('../data/img/train')
+    tr_sub_dirs = get_sub_dirs(TRAINING_DIR)
     # get sift descriptors for training images
     tr_images, tr_labels, n_tr_images = get_sift_descriptors_from_images(
-        '../data/img/train/',
+        TRAINING_DIR + '/',
         tr_sub_dirs,
         number_of_imgs_from_each_class)
 
@@ -143,11 +146,11 @@ if __name__ == "__main__":
     # create a bag of visual words histogram
 
     n_test_images_from_each_class = 10
-    test_sub_dirs = get_sub_dirs('../data/img/test')
+    test_sub_dirs = get_sub_dirs(TEST_DIR)
 
     # Get sift descriptors for test images
     test_images, test_labels, n_test_images = get_sift_descriptors_from_images(
-        '../data/img/test/',
+        TEST_DIR + '/',
         test_sub_dirs,
         n_test_images_from_each_class)
 
