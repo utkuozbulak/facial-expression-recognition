@@ -2,8 +2,7 @@ import os
 import cv2
 import numpy as np
 from scipy.cluster.vq import *
-from sklearn import svm
-from sklearn import preprocessing
+from sklearn import svm, preprocessing
 
 TRAINING_DIR = '../data/img/train'
 TEST_DIR = '../data/img/test'
@@ -119,14 +118,18 @@ def range_scaler(bag_of_words):
 
 
 if __name__ == "__main__":
-    number_of_imgs_from_each_class = 100
+    # Can restrict number of images to be used from each class
+    # If to include all training and test images set these two variables to
+    # very large values, e.g 10000 (warning: running the code will thus take a very long time)
+    training_number_of_images_from_each_class = 500
+    test_number_of_test_images_from_each_class = 50
 
     tr_sub_dirs = get_sub_dirs(TRAINING_DIR)
     # get sift descriptors for training images
     tr_images, tr_labels, n_tr_images = get_sift_descriptors_from_images(
         TRAINING_DIR + '/',
         tr_sub_dirs,
-        number_of_imgs_from_each_class)
+        training_number_of_images_from_each_class)
 
     # Stack all descriptors vertically
     stacked_descs, des_list = stack_descriptors(tr_images)
@@ -145,14 +148,13 @@ if __name__ == "__main__":
     # Get a sample of test images and repeat procedure to get feature descriptors, perform k-means and
     # create a bag of visual words histogram
 
-    n_test_images_from_each_class = 10
     test_sub_dirs = get_sub_dirs(TEST_DIR)
 
     # Get sift descriptors for test images
     test_images, test_labels, n_test_images = get_sift_descriptors_from_images(
         TEST_DIR + '/',
         test_sub_dirs,
-        n_test_images_from_each_class)
+        test_number_of_test_images_from_each_class)
 
     # Stack descriptors
     test_stacked_desc, test_des_list = stack_descriptors(test_images)
