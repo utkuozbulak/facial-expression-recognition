@@ -71,7 +71,7 @@ def get_facial_vectors(specific_part=None, file_path=DATA_CSV_FILE, only_train_d
         if only_train_data:
             facial_featutes_matrix = np.zeros([TRAIN_END_POINT, 68, 2])
         elif only_test_data:
-            facial_featutes_matrix = np.zeros([PUBLIC_TEST_END_POINT - TRAIN_END_POINT, 68, 2])
+            facial_featutes_matrix = np.zeros([PUBLIC_TEST_END_POINT - PUBLIC_TEST_START_POINT, 68, 2])
         else:
             facial_featutes_matrix = np.zeros([PRIVATE_TEST_END_POINT, 68, 2])
         return facial_featutes_matrix

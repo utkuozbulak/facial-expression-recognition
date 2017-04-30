@@ -151,7 +151,8 @@ def _get_resized_feature_vector(feature_data,
 
 def get_resized_feature_vectors(feature_data,
                                 pixels,
-                                maintain_aspect_ratio=False):
+                                maintain_aspect_ratio=False,
+                                feature_target_sizes=None):
     """
     Bulk processor for taking in feature data (the mouth, nose, ears thing)
     and pumping images of each of these parts to the size of the largest
@@ -164,9 +165,12 @@ def get_resized_feature_vectors(feature_data,
     feature - the same features for any input image _should_ then be the same
     size and feedable to a neural net. This is a simple resize. experimentation
     is due.
+    Also returns the sizes we mapped to, to be re-fed back in to this function
+    for resizing test data to same size as train data (we can't "know" test
+    data in advance, can we?!)
     """
     assert len(feature_data) == len(pixels)
-    feature_target_sizes = get_largest_features(feature_data)
+    feature_target_sizes = feature_target_sizes or get_largest_features(feature_data)
     resized_vectors = []
     for index, feature in enumerate(feature_data):
         if feature.any():
@@ -177,7 +181,7 @@ def get_resized_feature_vectors(feature_data,
             resized_vectors.append(resized_vector)
         else:
             resized_vectors.append(None)
-    return resized_vectors
+    return resized_vectors, feature_target_sizes
 
 
 def _concatenate_vector(feature_vector):
@@ -208,6 +212,9 @@ def get_concatenated_vectors(normalized_facial_vectors):
     dictionaries (per facial feature) of normalized features
     :return: an almost-matrix of all your relevant datas. pixel data where
     available, None where no face was detected. (BEWARE!)
+    ALSO: you will most likely need to put the result through np.vstack after
+    any filtering you've done so as to have a usable format by scikitlearn and
+    other libs (array of array doesn't do so well).
     """
     concatenation_list = []  # numpy sucks, so we do this in python.
     # do you even concatenate, bro?
@@ -215,19 +222,3 @@ def get_concatenated_vectors(normalized_facial_vectors):
         concatenation_list.append(_concatenate_vector(face))
     concatenated_faces = np.array(concatenation_list)
     return concatenated_faces
-
-
-# FOR DEMONSTRATION/MEMORY PURPOSES:
-# def get_cached_normalized_training_vectors():
-#
-#     from src.pre_processing.extract_landscape import get_facial_vectors
-#     from src.pre_processing.extract_landscape import _extract_photos_from_file
-#     facial_vectors = get_facial_vectors(only_train_data=True,
-#                                         load_cached=True)
-#     facial_pixels = _extract_photos_from_file(only_train_data=True)
-#     normalized_facial_features = get_resized_feature_vectors(facial_vectors,
-#                                                              facial_pixels)
-#     normalized_concatenated_facial_features_matrix = get_concatenated_vectors(
-#         normalized_facial_features
-#     )
-#     return normalized_concatenated_facial_features_matrix
