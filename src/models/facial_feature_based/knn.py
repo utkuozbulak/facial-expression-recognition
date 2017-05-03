@@ -1,47 +1,13 @@
-import multiprocessing
-from functools import partial
-
 import numpy as np
-from sklearn.svm import SVC
+
+from sklearn.neighbors import KNeighborsClassifier
 from sklearn.preprocessing import scale
 
 from src.extract_data.get_data_from_csv import GetDataFromCSV
 from src.pre_processing.extract_landscape import get_facial_vectors
+
 from src.models.facial_feature_based.common import get_normalized_vectors
 from src.models.facial_feature_based.common import clean_normalized_vectors
-
-
-def svc_at_gamma(scaled_clean_normalized_vectors_train,
-                 clean_targets_train,
-                 scaled_clean_normalized_vectors_test,
-                 clean_targets_test,
-                 new_gamma
-                 ):
-    C_range = np.logspace(-2, 10, 13)
-    for C in C_range:
-        # ok, we're basically ready to go, split it in to the correct splits
-        # and we can train/test.
-
-        classifier = SVC(C=C, verbose=True, gamma=new_gamma)
-        classifier.fit(scaled_clean_normalized_vectors_train,
-                       clean_targets_train)
-
-        train_score = classifier.score(scaled_clean_normalized_vectors_train,
-                                       clean_targets_train)
-        test_score = classifier.score(scaled_clean_normalized_vectors_test,
-                                      clean_targets_test)
-        test_predictions = classifier.predict(
-            scaled_clean_normalized_vectors_test
-        )
-
-        filename = "results/svm_with_gamma_%s_C_%s.csv" % (new_gamma,
-                                                           C_range)
-        with open(filename, 'w') as outfile:
-            outfile.write("train_score:%s, test_score:%s\n" % (train_score,
-                                                               test_score))
-            for prediction in test_predictions.tolist():
-                outfile.write("%s\n" % str(prediction))
-            outfile.flush()
 
 
 def run():
@@ -81,15 +47,30 @@ def run():
     scaled_clean_normalized_vectors_train = scale(clean_normalized_vectors_train)
     scaled_clean_normalized_vectors_test = scale(clean_normalized_vectors_test)
 
-    gamma_range = np.logspace(-9, 3, 16)
+    n_neighbors_log = np.floor(np.logspace(1, 3, 20))
+    n_neighbors_log = n_neighbors_log[n_neighbors_log>21]
+    n_neighbors_log = n_neighbors_log.astype(int)
 
-    pool = multiprocessing.Pool(16)
-    svc_run = partial(
-        svc_at_gamma,
-        scaled_clean_normalized_vectors_train,
-        clean_targets_train,
-        scaled_clean_normalized_vectors_test,
-        clean_targets_test,
-    )
-    print("running")
-    pool.map(svc_run, gamma_range)
+    for n_neighbors in n_neighbors_log:
+        # ok, we're basically ready to go, split it in to the correct splits
+        # and we can train/test.
+        classifier = KNeighborsClassifier(weights='distance',
+                                          n_jobs=-2,
+                                          n_neighbors=n_neighbors)
+        classifier.fit(scaled_clean_normalized_vectors_train,
+                       clean_targets_train)
+
+        train_score = classifier.score(scaled_clean_normalized_vectors_train,
+                                       clean_targets_train)
+        test_score = classifier.score(scaled_clean_normalized_vectors_test,
+                                      clean_targets_test)
+
+        test_predictions = classifier.predict(scaled_clean_normalized_vectors_test)
+
+        filename = "results/knn_%s.csv" % n_neighbors
+        with open(filename, 'w') as outfile:
+            outfile.write("train_score:%s, test_score:%s\n" % (train_score,
+                                                               test_score))
+            for prediction in test_predictions.tolist():
+                outfile.write("%s\n" % str(prediction))
+            outfile.flush()
