@@ -47,6 +47,8 @@ Neutral
 
 #### Facial Landscape - Pixel Approach
 ~50% Accuracy on detected faces with SVMs
+![SVM](https://raw.githubusercontent.com/utkuozbulak/facial-expression-recognition/master/data/svm.png "SVM_opt")
+
 
 #### Facial Landscape - Vector Approach
 ~49% Accuracy on detected faces with neural nets
@@ -56,8 +58,31 @@ Neutral
 
 #### Convolutional Neural Networks
 ~51% Accuracy on all data
+![CNN](https://raw.githubusercontent.com/utkuozbulak/facial-expression-recognition/master/data/cnn.png "CNN")
 
 #### Pre-trained Models
 ~49% Accuracy with bagged model
+![PRE](https://raw.githubusercontent.com/utkuozbulak/facial-expression-recognition/master/data/pre.png "PRE")
 
-## Example Predictions and Outcome
+#### Final Results
+![Final](https://raw.githubusercontent.com/utkuozbulak/facial-expression-recognition/master/data/final.png "Final")
+
+
+## Top Two Predictions with the Best Model
+![bw](https://raw.githubusercontent.com/utkuozbulak/facial-expression-recognition/master/data/samples/bw_andreas.png "bw")
+**Supposed to be:** Surpsised **Found:**  93% Neutral - 3% Sad
+
+![bw](https://raw.githubusercontent.com/utkuozbulak/facial-expression-recognition/master/data/samples/bw_alex.png "bw")
+**Supposed to be:** Angry **Found:**  86% Happy - 11% Neutral
+
+![bw](https://raw.githubusercontent.com/utkuozbulak/facial-expression-recognition/master/data/samples/bw_ara.png "bw")
+**Supposed to be:** Happy **Found:**  93% Neutral - 3% Sad
+
+![bw](https://raw.githubusercontent.com/utkuozbulak/facial-expression-recognition/master/data/samples/bw_charles.png "bw")
+**Supposed to be:** Neutral **Found:**  83% Neutral - 7% Angry
+
+![bw](https://raw.githubusercontent.com/utkuozbulak/facial-expression-recognition/master/data/samples/bw_lukas.png "bw")
+**Supposed to be:** Sad **Found:**  33% Sad - 25% Sad
+
+![bw](https://raw.githubusercontent.com/utkuozbulak/facial-expression-recognition/master/data/samples/bw_utku.png "bw")
+**Supposed to be:** Fear **Found:**  94% Neutral - 4% Fear
