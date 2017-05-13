@@ -65,8 +65,7 @@ Neutral
 #### Pre-trained Models
 ~49% Accuracy with bagged model
 
-<img src="https://raw.githubusercontent.com/utkuozbulak/facial-expression-recognition/master/data/pre.png" alt="Drawing" style="width: 100px;"/>
--
+![Pre](https://raw.githubusercontent.com/utkuozbulak/facial-expression-recognition/master/data/final.png "Pre")
 
 #### Final Results
 ![Final](https://raw.githubusercontent.com/utkuozbulak/facial-expression-recognition/master/data/final.png "Final")
