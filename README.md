@@ -47,6 +47,7 @@ Neutral
 
 #### Facial Landscape - Pixel Approach
 ~50% Accuracy on detected faces with SVMs
+
 ![SVM](https://raw.githubusercontent.com/utkuozbulak/facial-expression-recognition/master/data/svm.png "SVM_opt")
 
 
@@ -58,11 +59,14 @@ Neutral
 
 #### Convolutional Neural Networks
 ~51% Accuracy on all data
+
 ![CNN](https://raw.githubusercontent.com/utkuozbulak/facial-expression-recognition/master/data/cnn.png "CNN")
 
 #### Pre-trained Models
 ~49% Accuracy with bagged model
-![PRE](https://raw.githubusercontent.com/utkuozbulak/facial-expression-recognition/master/data/pre.png "PRE")
+
+<img src="https://raw.githubusercontent.com/utkuozbulak/facial-expression-recognition/master/data/pre.png" alt="Drawing" style="width: 100px;"/>
+-
 
 #### Final Results
 ![Final](https://raw.githubusercontent.com/utkuozbulak/facial-expression-recognition/master/data/final.png "Final")
