@@ -65,7 +65,7 @@ Neutral
 #### Pre-trained Models
 ~49% Accuracy with bagged model
 
-![Pre](https://raw.githubusercontent.com/utkuozbulak/facial-expression-recognition/master/data/final.png "Pre")
+![Pre](https://raw.githubusercontent.com/utkuozbulak/facial-expression-recognition/master/data/pre.png "Pre")
 
 #### Final Results
 ![Final](https://raw.githubusercontent.com/utkuozbulak/facial-expression-recognition/master/data/final.png "Final")
@@ -76,16 +76,16 @@ Neutral
 **Supposed to be:** Surpsised **Found:**  93% Neutral - 3% Sad
 
 ![bw](https://raw.githubusercontent.com/utkuozbulak/facial-expression-recognition/master/data/samples/bw_alex.png "bw")
-**Supposed to be:** Angry **Found:**  86% Happy - 11% Neutral
+**Supposed to be:** Angry **Found:**  43% Sad - 21% Angry
 
 ![bw](https://raw.githubusercontent.com/utkuozbulak/facial-expression-recognition/master/data/samples/bw_ara.png "bw")
-**Supposed to be:** Happy **Found:**  93% Neutral - 3% Sad
+**Supposed to be:** Happy **Found:**  86% Happy - 11% Neutral
 
 ![bw](https://raw.githubusercontent.com/utkuozbulak/facial-expression-recognition/master/data/samples/bw_charles.png "bw")
 **Supposed to be:** Neutral **Found:**  83% Neutral - 7% Angry
 
 ![bw](https://raw.githubusercontent.com/utkuozbulak/facial-expression-recognition/master/data/samples/bw_lukas.png "bw")
-**Supposed to be:** Sad **Found:**  33% Sad - 25% Sad
+**Supposed to be:** Sad **Found:**  33% Sad - 25% Fear
 
 ![bw](https://raw.githubusercontent.com/utkuozbulak/facial-expression-recognition/master/data/samples/bw_utku.png "bw")
 **Supposed to be:** Fear **Found:**  94% Neutral - 4% Fear
