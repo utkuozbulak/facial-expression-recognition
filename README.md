@@ -40,9 +40,6 @@ Surprise
 ![Neutral](https://raw.githubusercontent.com/utkuozbulak/facial-expression-recognition/master/data/samples/6_neutral/11.png "Neutral")
 Neutral
 
-## Paper
-
-
 ## Evaluated Models
 
 #### Facial Landscape - Pixel Approach
@@ -61,7 +58,7 @@ Neutral
 ~28% Accuracy on detected faces with SVMs
 
 #### Convolutional Neural Networks
-~51% Accuracy on all data
+~51% Accuracy on all data (7 classes)
 
 *CNN Model Breakdowns:*
 
