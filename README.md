@@ -1,5 +1,7 @@
 # Facial Expression Recognition
 
+**Note**: This is a messy repository, you should find your way through what is present here (unfortunately).
+
 ## Team Members
 
 * Alex Young
